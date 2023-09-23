@@ -18,8 +18,56 @@
 
 
 
+class Key{
+    private signature: string;
+  
+    constructor() {
+      this.signature = Math.random().toString(36).slice(2);
+    }
+  
+    getSignature(): string {
+      return this.signature;
+    }
 
+}
+  
+class Person{
+    private key: Key;
 
+    constructor(key: Key){
+        this.key = key;
+    }
+
+    getKey(): string {
+        return this.key.getSignature();
+    }
+}  
+
+abstract class House{
+    door: boolean;
+    key: Key;
+    tenants: Person[] = [];
+
+    comeIn(person :Person): Person[]{
+        if(this.door){
+            this.tenants.push(person)
+        }
+        return this.tenants
+    }
+
+    abstract openDoor(key:Key):boolean;
+}
+
+class MyHouse extends House{
+    openDoor(enteredKey: Key):boolean{
+        if(enteredKey === this.key){
+            this.door = true; // Відкриваємо двері
+            return true
+        }
+        return false
+    }
+}
+  
 
 
 
