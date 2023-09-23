@@ -25,9 +25,9 @@ class Key{
       this.signature = Math.random().toString(36).slice(2);
     }
   
-    getSignature(): string {
-      return this.signature;
-    }
+    getSignature(this: Key): string {
+        return this.signature;
+      }
 
 }
   
@@ -54,11 +54,15 @@ abstract class House{
         }
         return this.tenants
     }
-
     abstract openDoor(key:Key):boolean;
 }
 
 class MyHouse extends House{
+    constructor(key: Key) {
+        super();
+        this.key = key;
+      }
+
     openDoor(enteredKey: Key):boolean{
         if(enteredKey === this.key){
             this.door = true; // Відкриваємо двері
@@ -66,21 +70,22 @@ class MyHouse extends House{
         }
         return false
     }
+
+   
 }
   
-
-
-
 //Після реалізації всіх класів створіть об'єкти для кожного класу та спробуйте відтворити сценарій, в якому людина приходить додому.
 
-// const key = new Key();
+const key = new Key();
 
-// const house = new MyHouse(key);
-// const person = new Person(key);
+const house = new MyHouse(key);
+const person = new Person(key);
 
-// house.openDoor(person.getKey());
+// Із таким визовом house.openDoor(person.getKey()); не працють класи, підскажіть що і як можна це виправити, будь ласка!)
+//house.openDoor(person.getKey());
 
-// house.comeIn(person);
+house.openDoor(key);
 
+house.comeIn(person);
 
 export {};
